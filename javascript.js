@@ -1,5 +1,5 @@
 function getWeatherData(location){
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=0a20986311ac459fad272918232409&q=${location}&days=3`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=0a20986311ac459fad272918232409&q=${location}&days=3`)
         .then((response) => {
             console.log(response.ok); 
             return response.json()
