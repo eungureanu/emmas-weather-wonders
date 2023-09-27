@@ -1,8 +1,15 @@
 function getWeatherData(location){
     fetch(`https://api.weatherapi.com/v1/forecast.json?key=0a20986311ac459fad272918232409&q=${location}&days=3`)
         .then((response) => {
-            console.log(response.ok); 
-            return response.json()
+            console.log(response.ok);
+            console.log(response);
+            if(!response.ok && location === ""){
+                throw new Error("Please type the name of a city in the search bar");
+            } else if (!response.ok) {
+                throw new Error("We're having some network issues. Please try again later. Sorry!");
+            } else {
+                return response.json();
+            }
         })
         .then((response) => {
             console.log(response);
@@ -18,7 +25,9 @@ function getWeatherData(location){
             updateFontColour(weatherData.current.is_day);
             getBackgroundImage(weatherData.current.condition.code, weatherData.current.is_day);
         })
-        // .catch();
+        .catch(function (error) {
+            alert(error.message);
+         })
 }
 
 function getWeekday(timestamp){
@@ -384,6 +393,7 @@ const r = document.querySelector(":root");
 getWeatherData(defaultLocation);
 search.addEventListener("submit", (event) => {
     event.preventDefault();
+    console.log(typeof(userInput.value));
     getWeatherData(userInput.value);
     userInput.value="";
 })
