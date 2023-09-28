@@ -17,7 +17,7 @@ function getWeatherData(location){
             weatherData = response;
             console.log(weatherData);
             city.innerText = weatherData.location.name;
-            weekday.innerText = getWeekday(weatherData.location.localtime);
+            localDayTime.innerText = getWeekday(weatherData.location.localtime)+", "+getLocalTime(weatherData.location.localtime);
             date.innerText = getDate(weatherData.location.localtime);
             temperature.innerText = weatherData.current.temp_c+"°";
             weatherConditionIcon.setAttribute("src", `img/icons/${getIcon(weatherData.current.condition.icon)}`);
@@ -34,6 +34,16 @@ function getWeekday(timestamp){
     const date = new Date(timestamp);
     const options = { weekday: 'long'};
     return date.toLocaleDateString(undefined, options);
+}
+
+function getLocalTime(timestamp){
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const formattedHours = hours < 10 ? "0" + hours : hours.toString();
+    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes.toString();
+    const localtime = formattedHours + ":" + formattedMinutes;
+    return localtime
 }
 
 function getDate(timestamp){
@@ -383,7 +393,7 @@ const background = document.querySelector("body");
 const search = document.getElementById("search-form");
 const userInput = document.getElementById("user-input");
 const city = document.getElementById("city");
-const weekday = document.getElementById("weekday");
+const localDayTime = document.getElementById("local-time-day");
 const date = document.getElementById("date");
 const temperature = document.getElementById("temperature");
 const weatherConditionIcon = document.getElementById("weather-condition-icon");
